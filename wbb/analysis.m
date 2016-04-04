@@ -33,12 +33,12 @@ bottomLeft_pos = [-dx,-dy];
 %}
 % d = csvread('data/Test1a_murat_stading_30s.csv');
 % d = csvread('data/Test1b_murat_stading_eyesclosed.csv');
-d = csvread('data/Test1c_right_leg_standing.csv');
+% d = csvread('data/Test1c_right_leg_standing.csv');
 % d = csvread('data/Test1d_murat_left_leg_standing.csv');
 % d = csvread('data/Test1e_murat_left_leg_bent_knee.csv');
 % d = csvread('data/Test1f_murat_right_leg_bent_knee.csv');
 % d = csvread('data/Test1g_murat_squat.csv');
-% d = csvread('data/Test1h_spinning_murat_15.csv');
+d = csvread('data/Test1h_spinning_murat_15.csv');
 
 t = d(:,1);
 t = t - t(1);   % relative time
@@ -146,3 +146,4 @@ semilogx(f_y, psd_db_y,'.-')
 xlabel('Frequency [Hz]')
 grid on
 title('COP - Power Spectral Density')
+legend('COP_x','COP_Y')
