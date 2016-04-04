@@ -22,7 +22,7 @@ def main():
 	done = False
 
 	while (not done):
-		#time.sleep(0.005)
+		time.sleep(0.05)
 		for event in pygame.event.get():
 			if event.type == wiiboard.WIIBOARD_MASS:
 
@@ -39,7 +39,7 @@ def main():
                                 #print "y+",y
                                 millis = int(round(time.time() * 1000000))
 
-                                s = str(millis) + str(",") + str(event.mass.topRight) + str(",") + str(event.mass.bottomRight) + str(",") + str(event.mass.bottomLeft) + str(",") + str(event.mass.topLeft) + str("\n") 
+                                s = str(event.mass.timeStamp) + str(",") + str(event.mass.topRight) + str(",") + str(event.mass.bottomRight) + str(",") + str(event.mass.bottomLeft) + str(",") + str(event.mass.topLeft) + str("\n") 
                                 
                                 f.write(s)
                                 # x length

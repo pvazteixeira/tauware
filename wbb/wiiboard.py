@@ -54,6 +54,7 @@ class BoardEvent:
 		self.buttonReleased = buttonReleased
 		#convenience value
 		self.totalWeight = topLeft + topRight + bottomLeft + bottomRight
+                self.timeStamp =  int(round(time.time() * 1000))
 
 class Wiiboard:
 
