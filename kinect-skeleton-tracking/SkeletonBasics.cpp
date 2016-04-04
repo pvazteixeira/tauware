@@ -8,10 +8,13 @@
 #include <strsafe.h>
 #include "SkeletonBasics.h"
 #include "resource.h"
+#include <fstream>
 
 static const float g_JointThickness = 3.0f;
 static const float g_TrackedBoneThickness = 6.0f;
 static const float g_InferredBoneThickness = 1.0f;
+
+std::ofstream log_file("skeleton-track.csv");
 
 /// <summary>
 /// Entry point for the application
@@ -87,6 +90,28 @@ int CSkeletonBasics::Run(HINSTANCE hInstance, int nCmdShow)
     wc.hIcon         = LoadIconW(hInstance, MAKEINTRESOURCE(IDI_APP));
     wc.lpfnWndProc   = DefDlgProcW;
     wc.lpszClassName = L"SkeletonBasicsAppDlgWndClass";
+
+    log_file << "hip.center.x, hip.center.y, hip.center.z, ";
+    log_file << "spine.x, spine.y, spine.z, ";
+    log_file << "shoulder.center.x, shoulder.center.y, shoulder.center.z, ";
+    log_file << "head.x, head.y, head.z, ";
+    log_file << "shoulder.left.x, shoulder.left.y, shoulder.left.z, ";
+    log_file << "elbow.left.x, elbow.left.y, elbow.left.z, ";
+    log_file << "wrist.left.x, wrist.left.y, wrist.left.z, ";
+    log_file << "hand.left.x, hand.left.y, hand.left.z, ";
+    log_file << "shoulder.right.x, shoulder.right.y, shoulder.right.z, ";
+    log_file << "elbow.right.x, elbow.right.y, elbow.right.z, ";
+    log_file << "wrist.right.x, wrist.right.y, wrist.right.z, ";
+    log_file << "hand.right.x, hand.right.y, hand.right.z, ";
+    log_file << "hip.left.x, hip.left.y, hip.left.z, ";
+    log_file << "knee.left.x, knee.left.y, knee.left.z, ";
+    log_file << "ankle.left.x, ankle.left.y, ankle.left.z, ";
+    log_file << "foot.left.x, foot.left.y, foot.left.z, ";
+    log_file << "hip.right.x, hip.right.y, hip.right.z, ";
+    log_file << "knee.right.x, knee.right.y, knee.right.z, ";
+    log_file << "ankle.right.x, ankle.right.y, ankle.right.z, ";
+    log_file << "foot.right.x, foot.right.y, foot.right.z, ";
+    log_file << std::endl;
 
     if (!RegisterClassW(&wc))
     {
@@ -376,7 +401,11 @@ void CSkeletonBasics::DrawSkeleton(const NUI_SKELETON_DATA & skel, int windowWid
     for (i = 0; i < NUI_SKELETON_POSITION_COUNT; ++i)
     {
         m_Points[i] = SkeletonToScreen(skel.SkeletonPositions[i], windowWidth, windowHeight);
+
+        log_file << skel.SkeletonPositions[i].x << "," << skel.SkeletonPositions[i].y << skel.SkeletonPositions[i].z << ",";
     }
+    log_file << std::endl;
+    
 
     // Render Torso
     DrawBone(skel, NUI_SKELETON_POSITION_HEAD, NUI_SKELETON_POSITION_SHOULDER_CENTER);
