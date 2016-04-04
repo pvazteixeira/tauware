@@ -1,0 +1,21 @@
+00 hip_center.x, hip_center.y, hip_center.z
+01 spine.x, spine.y, spine.z,
+02 shoulder_center.x, shoulder_center.y, shoulder_center.z
+03 head.x, head.y, head.z
+04 shoulder.left.x
+05 elbow.left.x
+06 wrist.left.x
+07 hand.left.x
+08 shoulder.right.x
+09 elbow.right.x
+10 wrist.right.x
+11 hand.right.x
+12 hip.left.x
+13 knee.left.x
+14 ankle.left.x
+15 foot.left.x
+16 hip.right.x
+17 knee.right.x
+18 ankle.right.x
+19 foot.right.x
+
