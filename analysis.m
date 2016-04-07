@@ -33,8 +33,8 @@ run('skeleton_joint_indices.m');
     topLeft - the sensor reading for the top left sensor [kg]
 %}
 
-kinect_data = csvread('../data/kinect/skeleton-track_murat_test1a.csv',1);
-wbb_data = csvread('../data/wbb/Test1A_murat_standing_both.csv');
+kinect_data = csvread('data/kinect/skeleton-track_murat_test1a.csv',1);
+wbb_data = csvread('data/wbb/Test1A_murat_standing_both.csv');
 
 %% kinect timing analysis
 
@@ -101,30 +101,17 @@ cop = topRight_n*topRight_pos + bottomRight_n*bottomRight_pos + ...
       topLeft_n*topLeft_pos + bottomLeft_n*bottomLeft_pos;
 
 
-%% plot data
-close all
-
-% 0 - sampling period
-dt = diff(t);
-hist(diff(t),1000);
-xlabel('Sampling period [s]')
-ylabel('Count []')
-grid on
-% mean and standard deviation
-kinect_mean_sp = mean(dt);
-kinect_std_dev_sp = std(dt);
-disp('Sampling period:')
-disp(['  mean:      ',num2str(kinect_mean_sp),'s'])
-disp(['  std. dev.: ',num2str(kinect_std_dev_sp),'s'])
-title('Sampling period histogram')
-
-
+%% plot cop, hip, spine
+% note: if the kinect is horizontal, we are interested in the XZ plane
 figure()
-plot(t,d(:,hip_center_x))
+plot(kinect_time,hip(:,1),'b')
 hold on
-plot(t,d(:,hip_center_y))
+plot(kinect_time,hip(:,2),'r')
+plot(kinect_time,hip(:,3),'g')
 grid on
+legend('x_{hip}','y_{hip}','z_{hip}')
 
+%%
 figure()
 plot(d(:,hip_center_x),d(:,hip_center_y))
 hold on
@@ -134,7 +121,7 @@ axis equal
 xlabel('x_{hip} [m]')
 ylabel('y_{hip} [m]')
 
-cop = [d(:,hip_center_x),d(:,hip_center_y)];
+kinect_cop = [d(:,hip_center_x),d(:,hip_center_y)];
 
 %%
 
