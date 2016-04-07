@@ -9,10 +9,14 @@
 #include "SkeletonBasics.h"
 #include "resource.h"
 #include <fstream>
+#include <ctime>
+#include <chrono>
 
 static const float g_JointThickness = 3.0f;
 static const float g_TrackedBoneThickness = 6.0f;
 static const float g_InferredBoneThickness = 1.0f;
+
+std::chrono::high_resolution_clock Time;
 
 std::ofstream log_file("skeleton-track.csv");
 
@@ -91,6 +95,7 @@ int CSkeletonBasics::Run(HINSTANCE hInstance, int nCmdShow)
     wc.lpfnWndProc   = DefDlgProcW;
     wc.lpszClassName = L"SkeletonBasicsAppDlgWndClass";
 
+    log_file << "time, ";
     log_file << "hip.center.x, hip.center.y, hip.center.z, ";
     log_file << "spine.x, spine.y, spine.z, ";
     log_file << "shoulder.center.x, shoulder.center.y, shoulder.center.z, ";
@@ -398,11 +403,17 @@ void CSkeletonBasics::DrawSkeleton(const NUI_SKELETON_DATA & skel, int windowWid
 {      
     int i;
 
+    //auto t0 = Time.now();
+    auto t0 = std::chrono::system_clock::now();
+    auto t0ms = std::chrono::duration_cast<std::chrono::milliseconds>(t0.time_since_epoch());
+    //const long double sysTime = time(0);
+    log_file << t0ms.count() << ",";
+
     for (i = 0; i < NUI_SKELETON_POSITION_COUNT; ++i)
     {
         m_Points[i] = SkeletonToScreen(skel.SkeletonPositions[i], windowWidth, windowHeight);
 
-        log_file << skel.SkeletonPositions[i].x << "," << skel.SkeletonPositions[i].y << skel.SkeletonPositions[i].z << ",";
+        log_file << skel.SkeletonPositions[i].x << "," << skel.SkeletonPositions[i].y << "," << skel.SkeletonPositions[i].z << ",";
     }
     log_file << std::endl;
     
