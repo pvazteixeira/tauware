@@ -1,11 +1,14 @@
-function [ wbb_data ] = loadWBBData( filename )
-%UNTITLED Summary of this function goes here
+function [ wbb_data ] = loadWBBData( filename, Fs)
+%LOADWBBDATA Summary of this function goes here
 %   Detailed explanation goes here
+%
+%   pvt@mit.edu
+
+    wbb_data = [];
+    
     % values
     dx = 217; % half of the horizontal distance between the sensors [mm]
     dy = 119; % half of the vertical distance between the sensors [mm]
-
-    wbb_data = [];
     
     % sensor positions
     wbb_data.sensor.topRight.position       = [dx,dy];
@@ -16,7 +19,7 @@ function [ wbb_data ] = loadWBBData( filename )
     d = csvread(filename); 
 
     t = d(:,1);
-    t = t - t(1);   % relative time
+    %t = t - t(1);   % relative time
     t = t/1e3;      % convert to seconds
     wbb_data.time.raw = t;
 
@@ -38,8 +41,8 @@ function [ wbb_data ] = loadWBBData( filename )
                         topLeft_n*wbb_data.sensor.topLeft.position + ...
                         bottomLeft_n*wbb_data.sensor.bottomLeft.position;
     
-    % add resampled data
-    Fs = 100;
+    % add resampled data (to nominal sampling frequency)
+    % Fs = 100;
     [wbb_data.sensor.topRight.resampled, ~]     = resample(wbb_data.sensor.topRight.raw,t,Fs);
     [wbb_data.sensor.bottomRight.resampled, ~]  = resample(wbb_data.sensor.bottomRight.raw,t,Fs);
     [wbb_data.sensor.bottomLeft.resampled, ~]   = resample(wbb_data.sensor.bottomLeft.raw,t,Fs);
